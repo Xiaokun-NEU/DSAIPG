@@ -1,10 +1,11 @@
 package com.phasmidsoftware.dsaipg.adt.threesum;
 
-import org.junit.Test;
-
 import java.util.Arrays;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import org.junit.Test;
 
 public class ThreeSumQuadraticTest {
 
@@ -16,18 +17,18 @@ public class ThreeSumQuadraticTest {
 
     @Test
     public void testGetTriplesWithValidTriplets() {
-        int[] inputArray = {-1, 0, 1, 2, -1, -4};
+        int[] inputArray = {-4, -1, -1, 0, 1, 2};
         ThreeSum threeSum = new ThreeSumQuadratic(inputArray);
 
         Triple[] result = threeSum.getTriples();
 
         Triple[] expected = {
-                new Triple(-1, 0, 1),
-                new Triple(-1, 2, -1)
+                new Triple(-1, -1, 2),
+                new Triple(-1, 0, 1)
         };
-        Triple[] actual = threeSum.getTriples();
-        System.out.println(Arrays.toString(actual));
-        assertArrayEquals(expected, actual);
+
+        System.out.println(Arrays.toString(result));
+        assertArrayEquals(expected, result);
     }
 
     @Test

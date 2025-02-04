@@ -4,13 +4,11 @@
 
 package com.phasmidsoftware.dsaipg.adt.threesum;
 
-import com.phasmidsoftware.dsaipg.util.Benchmark_Timer;
-import com.phasmidsoftware.dsaipg.util.TimeLogger;
-import com.phasmidsoftware.dsaipg.util.Utilities;
-
 import java.util.function.Consumer;
 import java.util.function.Supplier;
-import java.util.function.UnaryOperator;
+
+import com.phasmidsoftware.dsaipg.util.TimeLogger;
+import com.phasmidsoftware.dsaipg.util.Utilities;
 
 /**
  * The ThreeSumBenchmark class provides a framework for evaluating and comparing
@@ -103,8 +101,28 @@ public class ThreeSumBenchmark {
     private void benchmarkThreeSum(final String description, final Consumer<int[]> function, int n, final TimeLogger[] timeLoggers) {
         if (description.equals("ThreeSumCubic") && n > 4000) return;
         // TO BE IMPLEMENTED 
-throw new RuntimeException("implementation missing");
-    }
+        if ("ThreeSumCubic".equals(description) && n > 4000) return;
+
+        System.out.println(description + ":");
+        double totalTimeMillis = 0.0;
+
+        for (int i = 0; i < runs; i++) {
+            int[] xs = supplier.get();
+            long startTime = System.currentTimeMillis();
+            function.accept(xs);
+            long endTime = System.currentTimeMillis();
+            totalTimeMillis += (endTime - startTime);
+        }
+
+        double averageTimeMillis = totalTimeMillis / runs;
+
+        for (TimeLogger timeLogger : timeLoggers) {
+            // ADD the description (or any String) here
+            timeLogger.log(description, averageTimeMillis, n);
+        }
+
+    // throw new RuntimeException("implementation missing");
+        }
 
     /**
      * An array of {@link TimeLogger} instances used for benchmarking the cubic implementation

@@ -5,7 +5,6 @@
 package com.phasmidsoftware.dsaipg.adt.threesum;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -24,7 +23,7 @@ public class ThreeSumQuadratic implements ThreeSum {
      * @param a a sorted array.
      */
     public ThreeSumQuadratic(int[] a) {
-        Arrays.sort(a); //sort
+        // Arrays.sort(a); //sort
         this.a = a;
         length = a.length;
     }
@@ -53,39 +52,35 @@ public class ThreeSumQuadratic implements ThreeSum {
          List<Triple> triples = new ArrayList<>();
         // TO BE IMPLEMENTED  : for each candidate, test if a[i] + a[j] + a[k] = 0.
         int i = 0; //first index
-        int k = length - 1; //last index
+        int k = length - 1; //third index
 
-        int sum = a[i] + a[j] + a[k];
-
-    if (sum == 0) {
-        Triple triple = new Triple(a[i], a[j], a[k]);
-        triples.add(triple);
+        
 
         //skip all repeat value
-        while (i < j) { 
-            if (a[i] == a[i + 1]) {
-                i++; 
-            } else {
-                break; 
+        while (i < j && k > j) { 
+            int sum = a[i] + a[j] + a[k];
+
+            if (sum == 0) {
+                Triple triple = new Triple(a[i], a[j], a[k]);
+                triples.add(triple);
+
+                while (i < j && a[i] == a[i + 1]) {
+                    i++;
+                }
+                i++;
+
+            while (k > j && a[k] == a[k - 1]) {
+                k--;
             }
-        }
-        i ++; //next index
+            k--; 
 
-        while (k > j) {
-            if (a[k] == a[k - 1]) {
-                k--; 
-            } else {
-                break; 
-            }
-        }
-        k--; //next index
-
-    } else if (sum < 0) {
-        i++;  
-
-    } else {
-        k--; 
+        } else if (sum < 0) {
+            i++;  
+        } else {
+            k--; 
+         }
     }
+    
 
     return triples;
 // throw new RuntimeException("implementation missing");
