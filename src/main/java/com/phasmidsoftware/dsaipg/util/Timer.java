@@ -65,7 +65,37 @@ public class Timer {
      */
     public <T, U> double repeat(int n, boolean warmup, Supplier<T> supplier, Function<T, U> function, UnaryOperator<T> preFunction, Consumer<U> postFunction) {
         // TO BE IMPLEMENTED : note that the timer is running when this method is called and should still be running when it returns.
-         return 0;
+        
+        long totalTicks = 0; // Total execution time
+
+        if (n == 0) {
+            return 0;
+        }
+
+        for (int i = 0; i < n; i++) {
+            T data = supplier.get();
+    
+            if (preFunction != null) {
+                data = preFunction.apply(data);
+            }
+            
+            long startTime = getClock(); // Start time
+            U result = function.apply(data);
+            long endTime = getClock(); // End time
+    
+            totalTicks += (endTime - startTime); // add execution time
+    
+            if (postFunction != null) {
+                postFunction.accept(result);
+            }
+    
+            lap();  // Ensure laps increment correctly
+        }
+        pause();  
+        final double result = toMillisecs(totalTicks) / n; // Get mean lap time
+        resume(); 
+        return result;
+
         // END SOLUTION
     }
 
@@ -240,7 +270,8 @@ public class Timer {
      */
     private static long getClock() {
         // TO BE IMPLEMENTED 
-         return 0;
+        long getNanoTime = System.nanoTime(); // Reference: https://stackoverflow.com/questions/351565/system-currenttimemillis-vs-system-nanotime
+        return getNanoTime; 
         // END SOLUTION
     }
 
@@ -253,7 +284,7 @@ public class Timer {
      */
     private static double toMillisecs(long ticks) {
         // TO BE IMPLEMENTED 
-         return 0;
+         return ticks / 1000000; // 1 milliseconds = 1000000 ticks
         // END SOLUTION
     }
 

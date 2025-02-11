@@ -4,14 +4,13 @@
 
 package com.phasmidsoftware.dsaipg.util;
 
-import org.junit.Test;
-
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import org.junit.Test;
 
 @SuppressWarnings("ALL")
 public class BenchmarkTest {
