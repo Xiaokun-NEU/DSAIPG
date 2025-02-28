@@ -4,7 +4,11 @@
 
 package com.phasmidsoftware.dsaipg.adt.pq;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.Iterator;
 import java.util.function.BiPredicate;
 import java.util.function.Consumer;
 
@@ -138,6 +142,49 @@ public class PriorityQueue<K> implements Iterable<K> {
         else return doTake(this::sink);
     }
 
+    public class RegularBinaryHeap<K> extends PriorityQueue<K> {
+        public RegularBinaryHeap(int n, boolean max, Comparator<K> comparator) {
+            super(n, max, comparator, false);
+        }
+    }
+
+    // Binary Heap with Floyd's Trick
+    public class BinaryHeapFloyd<K> extends PriorityQueue<K> {
+        public BinaryHeapFloyd(int n, boolean max, Comparator<K> comparator) {
+            super(n, max, comparator, true);
+        }
+    }
+
+
+    public  class FourAryHeap<K> extends PriorityQueue<K> {
+        public FourAryHeap(int n, boolean max, Comparator<K> comparator) {
+            super(n, max, comparator, false);
+        }
+        
+        protected int fourAryParent(int k) {
+            return (k - 2) / 4 + first;
+        }
+    
+        protected int fourAryFirstChild(int k) {
+            return (k - first) * 4 + 2; 
+        }
+    }
+
+
+    public class FourAryHeapFloyd<K> extends FourAryHeap<K> {
+        public FourAryHeapFloyd(int n, boolean max, Comparator<K> comparator) {
+            super(n, max, comparator);
+        }
+
+        @Override
+        public K take() throws PQException {
+            if (isEmpty()) throw new PQException("Priority queue is empty");
+            return doTake(this::snake); 
+        }
+    }
+
+    
+
     /**
      * Package-private method to remove the root element from the priority queue,
      * reorganizes the heap to maintain the priority queue properties,
@@ -154,6 +201,7 @@ public class PriorityQueue<K> implements Iterable<K> {
         return result;
     }
 
+    
     /**
      * Sink the element at index k down
      */
@@ -277,8 +325,10 @@ public class PriorityQueue<K> implements Iterable<K> {
     private final boolean floyd; //Determine whether floyd's snake method is on or off inside the take method
 
     public static void main(String[] args) {
-        doMain();
+         doMain();
+        
     }
+    
 
     /**
      * XXX Huh?
