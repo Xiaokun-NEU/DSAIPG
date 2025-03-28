@@ -4,15 +4,16 @@
 
 package com.phasmidsoftware.dsaipg.sort.linearithmic;
 
+import java.util.Arrays;
+
 import com.phasmidsoftware.dsaipg.sort.Helper;
 import com.phasmidsoftware.dsaipg.sort.SortException;
 import com.phasmidsoftware.dsaipg.sort.SortWithComparableHelper;
 import com.phasmidsoftware.dsaipg.sort.elementary.InsertionSort;
 import com.phasmidsoftware.dsaipg.util.Config;
-
-import java.util.Arrays;
-
-import static com.phasmidsoftware.dsaipg.util.Config_Benchmark.*;
+import static com.phasmidsoftware.dsaipg.util.Config_Benchmark.CUTOFF;
+import static com.phasmidsoftware.dsaipg.util.Config_Benchmark.CUTOFF_DEFAULT;
+import static com.phasmidsoftware.dsaipg.util.Config_Benchmark.HELPER;
 
 /**
  * Class MergeSort.
@@ -77,8 +78,31 @@ public class MergeSort<X extends Comparable<X>> extends SortWithComparableHelper
             return;
         }
 
-        // TO BE IMPLEMENTED  : implement merge sort with insurance and no-copy optimizations
-throw new RuntimeException("implementation missing");
+        int mid = from + (to - from) / 2;
+
+        sort(a, aux, from, mid);
+        sort(a, aux, mid, to);
+
+        if (insurance && helper.compare(a[mid - 1], a[mid]) <= 0) {
+            helper.incrementCopies(to - from);
+        
+            for (int k = from; k < to; k++) {
+                if (noCopy) {
+                    helper.get(a, k); 
+                } else {
+                    helper.copy(a[k], aux, k); 
+                }
+            }
+            return;
+        }
+
+        merge(a, aux, from, mid, to);
+
+        if (!noCopy) {
+            for (int k = from; k < to; k++) {
+                helper.copy(aux[k], a, k);
+            }
+        }
     }
 
     // CONSIDER combine with MergeSortBasic, perhaps.

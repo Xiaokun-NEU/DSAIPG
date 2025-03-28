@@ -4,12 +4,12 @@
 
 package com.phasmidsoftware.dsaipg.sort;
 
-import com.phasmidsoftware.dsaipg.util.Config;
-import com.phasmidsoftware.dsaipg.util.Utilities;
-
 import java.util.Comparator;
 import java.util.Random;
 import java.util.function.Function;
+
+import com.phasmidsoftware.dsaipg.util.Config;
+import com.phasmidsoftware.dsaipg.util.Utilities;
 
 /**
  * CONSIDER deleting this class.

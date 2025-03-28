@@ -3,28 +3,47 @@
  */
 package com.phasmidsoftware.dsaipg.util;
 
-import com.phasmidsoftware.dsaipg.sort.*;
-import com.phasmidsoftware.dsaipg.sort.classic.BucketSort;
-import com.phasmidsoftware.dsaipg.sort.counting.LSDStringSort;
-import com.phasmidsoftware.dsaipg.sort.counting.MSDStringSort;
-import com.phasmidsoftware.dsaipg.sort.elementary.*;
-import com.phasmidsoftware.dsaipg.sort.linearithmic.TimSort;
-import com.phasmidsoftware.dsaipg.sort.linearithmic.*;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.chrono.ChronoLocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Random;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 
+import com.phasmidsoftware.dsaipg.sort.Helper;
 import static com.phasmidsoftware.dsaipg.sort.InstrumentedComparatorHelper.AT;
+import com.phasmidsoftware.dsaipg.sort.NonInstrumentingComparableHelper;
+import com.phasmidsoftware.dsaipg.sort.Sort;
+import com.phasmidsoftware.dsaipg.sort.SortException;
+import com.phasmidsoftware.dsaipg.sort.SortWithComparableHelper;
+import com.phasmidsoftware.dsaipg.sort.SortWithHelper;
+import com.phasmidsoftware.dsaipg.sort.classic.BucketSort;
+import com.phasmidsoftware.dsaipg.sort.counting.LSDStringSort;
+import com.phasmidsoftware.dsaipg.sort.counting.MSDStringSort;
+import com.phasmidsoftware.dsaipg.sort.elementary.BubbleSort;
+import com.phasmidsoftware.dsaipg.sort.elementary.HeapSort;
+import com.phasmidsoftware.dsaipg.sort.elementary.InsertionSort;
+import com.phasmidsoftware.dsaipg.sort.elementary.InsertionSortOpt;
+import com.phasmidsoftware.dsaipg.sort.elementary.RandomSort;
+import com.phasmidsoftware.dsaipg.sort.elementary.ShellSort;
+import com.phasmidsoftware.dsaipg.sort.linearithmic.IntroSort;
+import com.phasmidsoftware.dsaipg.sort.linearithmic.MergeSort;
 import static com.phasmidsoftware.dsaipg.sort.linearithmic.MergeSort.MERGESORT;
+import com.phasmidsoftware.dsaipg.sort.linearithmic.QuickSort_3way;
+import com.phasmidsoftware.dsaipg.sort.linearithmic.QuickSort_Basic;
+import com.phasmidsoftware.dsaipg.sort.linearithmic.QuickSort_DualPivot;
+import com.phasmidsoftware.dsaipg.sort.linearithmic.TimSort;
 import static com.phasmidsoftware.dsaipg.util.Config_Benchmark.isInstrumented;
-import static com.phasmidsoftware.dsaipg.util.SortBenchmarkHelper.*;
+import static com.phasmidsoftware.dsaipg.util.SortBenchmarkHelper.generateRandomLocalDateTimeArray;
+import static com.phasmidsoftware.dsaipg.util.SortBenchmarkHelper.getWords;
+import static com.phasmidsoftware.dsaipg.util.SortBenchmarkHelper.regexLeipzig;
 import static com.phasmidsoftware.dsaipg.util.Utilities.formatWhole;
 
 /**
@@ -220,6 +239,8 @@ public class SortBenchmark {
                 runStringSortBenchmark(words, nWords, nRunsLinearithmic * 3, sorter, timeLoggersLinearithmic);
             }
         }
+
+        
 
         if (isConfigBenchmarkStringSorter("introsort") && nRunsLinearithmic > 0)
             try (SortWithHelper<String> sorter = new IntroSort<>(nWords, nRunsLinearithmic, config)) {

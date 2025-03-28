@@ -4,11 +4,10 @@
 
 package com.phasmidsoftware.dsaipg.util;
 
-import com.phasmidsoftware.dsaipg.sort.SortWithHelper;
-
 import java.util.function.Consumer;
 import java.util.function.UnaryOperator;
 
+import com.phasmidsoftware.dsaipg.sort.SortWithHelper;
 import static com.phasmidsoftware.dsaipg.util.Utilities.formatWhole;
 
 /**
