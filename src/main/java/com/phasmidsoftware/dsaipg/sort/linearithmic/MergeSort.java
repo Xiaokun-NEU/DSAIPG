@@ -83,19 +83,6 @@ public class MergeSort<X extends Comparable<X>> extends SortWithComparableHelper
         sort(a, aux, from, mid);
         sort(a, aux, mid, to);
 
-        if (insurance && helper.compare(a[mid - 1], a[mid]) <= 0) {
-            helper.incrementCopies(to - from);
-        
-            for (int k = from; k < to; k++) {
-                if (noCopy) {
-                    helper.get(a, k); 
-                } else {
-                    helper.copy(a[k], aux, k); 
-                }
-            }
-            return;
-        }
-
         merge(a, aux, from, mid, to);
 
         for (int k = from; k < to; k++) {
